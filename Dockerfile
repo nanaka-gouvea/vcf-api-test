@@ -12,7 +12,7 @@ bash Mambaforge-Linux-x86_64.sh -b -p $HOME/gitpod/mambaforge && \
 rm Mambaforge-Linux-x86_64.sh
 
 #create conda env and dependencies for snakemake
-RUN conda activate base
+#RUN conda activate base
 RUN mamba env create --name annotate -f environment.yaml && \
     conda activate annotate &&\
     cpanm Compress::Raw::Zlib

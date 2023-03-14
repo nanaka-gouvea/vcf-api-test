@@ -23,20 +23,20 @@ def annotate_vcf():
     # Return a success message
     return 'Annotation complete.'
 
-@app.route('/filter')
-def results():
+#@app.route('/filter')
+#def results():
     # get data and process it
     #TODO if file not exists
     # Make a request to the API endpoint and retrieve the output vcf file
-    r = requests.get('http://localhost:5000/results/annotated.vcf')
-    vcf_content = r.text
+#    r = requests.get('http://localhost:5000/results/annotated.vcf')
+    #vcf_content = r.text
     
     # Parse the contents of the output vcf file using pandas
-    vcf_df = pd.read_csv(vcf_content, sep='\t', comment='#', header=None)
-    vcf_json = vcf_df.to_json(orient='split')
+    #vcf_df = pd.read_csv(vcf_content, sep='\t', comment='#', header=None)
+    #vcf_json = vcf_df.to_json(orient='split')
 
     # render the template with processed data
-    return render_template('filter.html', table_data=vcf_json)
+    #return render_template('filter.html', table_data=vcf_json)
 
 @app.route('/result')
 def result():
