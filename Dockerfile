@@ -8,7 +8,8 @@ RUN sudo apt-get update && \
 
 #install snakemake and dependencies
 RUN curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o Mambaforge-Linux-x86_64.sh && \
-echo "yes" | bash Mambaforge-Linux-x86_64.sh
+bash Mambaforge-Linux-x86_64.sh -b -p $HOME/gitpod/mambaforge && \
+rm Mambaforge-Linux-x86_64.sh
 
 #create conda env and dependencies for snakemake
 RUN conda activate base
