@@ -1,0 +1,14 @@
+image:
+   file: Dockerfile
+
+tasks:
+  - name: main terminal
+    command: |
+      echo "Docker file built"
+
+vscode:
+  extensions:
+    - snakemake.snakemake-lang
+
+ports:
+  - port: 5000

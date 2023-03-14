@@ -1,0 +1,38 @@
+# Define input and output files
+input_file = "data/samples/NIST.vcf.gz"
+output_file = "results/annotated_variants.vcf"
+
+# Define rule for annotating variants with bcftools
+rule annotate_bcftools:
+    input:
+        vcf = input_file
+    output:
+        vcf = "annotated_bcftools.vcf"
+    shell:
+        "bcftools annotate --annotations data/common_all_20180423.vcf.gz --columns ID --output {output.vcf} {input.vcf}"
+
+# Define rule for annotating variants with VEP
+rule annotate_vep:
+    input:
+        vcf = "annotated_bcftools.vcf"
+    output:
+        vcf = "annotated_vep.vcf"
+    shell:
+        "vep --cache --dir data/vep --species homo_sapiens --offline --vcf --custom data/Homo_sapiens.GRCh37.75.b.gtf.gz,GENE,gtf --fasta data/Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz --fields Uploaded_variation,Location,Allele,SYMBOL,Consequence,IMPACT,ENSP,Existing_variation,AF --output_file {output.vcf} --input_file {input.vcf} --stats_file vep_stats.txt"
+
+# Define rule for merging annotations
+rule merge_annotations:
+    input:
+        vcf = "annotated_vep.vcf"
+    output:
+        vcf = output_file
+    shell:
+        "bcftools annotate --annotations {input.vcf} --columns ID,INFO/AF,INFO/Consequence,INFO/SYMBOL --output {output.vcf} {input.vcf}"
+
+rule download_vep_plugins:
+    output:
+        directory("resources/vep/plugins")
+    params:
+        release=100
+    wrapper:
+        "v1.23.5/bio/vep/plugins"
